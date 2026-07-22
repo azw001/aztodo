@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="今日事今日毕">
+<meta name="description" content="融合东方美学的个人专注管理工具。每日一句经典，规划今日之事，整点温柔报时，到期善意提醒。">
+<meta name="keywords" content="任务管理,时间管理,待办事项,专注力,东方美学,禅意">
+<meta name="author" content="今日事今日毕">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="msapplication-TileColor" content="#3d6b4d">
+<meta name="format-detection" content="telephone=no">
+
+<!-- Open Graph / WeChat / Social -->
+<meta property="og:title" content="今日事今日毕">
+<meta property="og:description" content="融合东方美学的个人专注管理工具。每日一句经典，规划今日之事，整点温柔报时，到期善意提醒。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="./og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="今日事今日毕">
+<meta name="twitter:description" content="融合东方美学的个人专注管理工具">
+<meta name="twitter:image" content="./og-image.jpg">
+
+<!-- WeChat -->
+<meta itemprop="name" content="今日事今日毕">
+<meta itemprop="description" content="融合东方美学的个人专注管理工具">
+<meta itemprop="image" content="./og-image.jpg">
+
+<!-- PWA Manifest -->
+<link rel="manifest" id="manifest-link">
+<link rel="apple-touch-icon" href="./og-image.jpg">
+
+<title>今日事今日毕</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ==================== ROOT ==================== */
+:root {
+  --bg: #f7f4ee;
+  --bg-warm: #f0ebe3;
+  --surface: #ffffff;
+  --surface-hover: #faf8f5;
+  --border: #e5e0d8;
+  --border-light: #edeae4;
+  --ink: #2c2c2a;
+  --ink-secondary: #6a6a65;
+  --ink-tertiary: #9a9a95;
+  --ink-faint: #babab5;
+  --bamboo: #3d6b4d;
+  --bamboo-soft: #e8f0eb;
+  --bamboo-light: #f0f5f2;
+  --gold: #c4a265;
+  --gold-soft: #f5efe4;
+  --cinnabar: #b85c5c;
+  --cinnabar-soft: #f5e8e8;
+  --indigo: #5a7ab5;
+  --indigo-soft: #e8ebf5;
+  --amethyst: #8a6bb5;
+  --amethyst-soft: #efe8f5;
+  --radius: 8px;
+  --radius-sm: 4px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+  --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+  --font-serif: 'Noto Serif SC','Songti SC','STSong','SimSun',serif;
+  --font-calligraphy: 'Ma Shan Zheng','KaiTi','STKaiti',cursive;
+  --font-sans: -apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+}
+
+/* ==================== RESET ==================== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  font-size:14px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+input, button, select, textarea {
+  font-family:inherit; font-size:inherit; color:inherit; outline:none; border:none; background:transparent;
+}
+button { cursor:pointer; }
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+
+/* ==================== HEADER ==================== */
+#header {
+  position:fixed; top:0; left:0; right:0; height:60px;
+  background:var(--bg); border-bottom:1px solid var(--border-light);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; z-index:100;
+}
+.brand {
+  display:flex; align-items:center; gap:10px;
+}
+.brand-icon {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--bamboo); display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-calligraphy); font-size:16px; color:white;
+}
+.brand-text {
+  font-family:var(--font-serif); font-size:16px; font-weight:600; letter-spacing:2px; color:var(--ink);
+}
+.clock-block {
+  display:flex; align-items:center; gap:16px;
+}
+.clock-time {
+  font-family:var(--font-serif); font-size:26px; font-weight:300;
+  color:var(--ink); letter-spacing:1px; line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.clock-time .sec { font-size:14px; color:var(--ink-tertiary); margin-left:2px; }
+.clock-date {
+  font-size:11px; color:var(--ink-secondary);
+  border-left:1px solid var(--border); padding-left:14px; line-height:1.4;
+}
+.clock-date .weekday { color:var(--bamboo); font-weight:500; }
+.header-controls {
+  display:flex; gap:6px;
+}
+.h-btn {
+  padding:6px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);
+  background:transparent; color:var(--ink-secondary); font-size:12px;
+  transition:all var(--transition); display:flex; align-items:center; gap:5px;
+}
+.h-btn:hover { border-color:var(--ink-tertiary); color:var(--ink); background:var(--surface-hover); }
+.h-btn.active { background:var(--bamboo-soft); border-color:var(--bamboo); color:var(--bamboo); }
+.h-btn .dot { width:5px; height:5px; border-radius:50%; background:var(--ink-faint); }
+.h-btn.active .dot { background:var(--bamboo); }
+
+/* ==================== MAIN ==================== */
+#main {
+  padding:84px 40px 40px; max-width:720px; margin:0 auto;
+}
+
+/* ==================== DAILY QUOTE ==================== */
+#daily-quote {
+  text-align:center; padding:40px 20px 36px; margin-bottom:8px;
+  position:relative;
+}
+.quote-deco {
+  width:60px; height:1px; background:var(--gold); margin:0 auto 24px; opacity:0.5;
+}
+.quote-text {
+  font-family:var(--font-calligraphy); font-size:28px; color:var(--ink);
+  line-height:1.8; letter-spacing:3px; margin-bottom:16px;
+}
+.quote-source {
+  font-family:var(--font-serif); font-size:12px; color:var(--ink-tertiary);
+  letter-spacing:1px;
+}
+.quote-seal {
+  position:absolute; top:24px; right:20px;
+  width:36px; height:36px; border:1.5px solid var(--cinnabar);
+  border-radius:4px; display:flex; align-items:center; justify-content:center;
+  opacity:0.25; transform:rotate(-8deg);
+}
+.quote-seal span {
+  font-family:var(--font-calligraphy); font-size:14px; color:var(--cinnabar);
+}
+
+/* ==================== SECTION TITLE ==================== */
+.section-title {
+  display:flex; align-items:center; gap:10px; margin:28px 0 14px;
+  font-family:var(--font-serif); font-size:13px; font-weight:600;
+  color:var(--ink-secondary); letter-spacing:1px;
+}
+.section-title::before {
+  content:''; width:3px; height:14px; background:var(--bamboo); border-radius:2px;
+}
+
+/* ==================== TASK CARD ==================== */
+.task-card {
+  background:var(--surface); border:1px solid var(--border-light);
+  border-radius:var(--radius); box-shadow:var(--shadow);
+  margin-bottom:10px; transition:all var(--transition);
+  position:relative; overflow:hidden;
+}
+.task-card:hover { box-shadow:var(--shadow-md); border-color:var(--border); }
+.task-card.status-overdue { border-left:3px solid var(--cinnabar); }
+.task-card.status-active { border-left:3px solid var(--bamboo); }
+.task-card.status-pending { border-left:3px solid var(--ink-faint); }
+.task-card.status-completed { opacity:0.55; border-left:3px solid var(--bamboo); }
+
+.task-card-inner {
+  padding:16px 18px;
+}
+.task-header {
+  display:flex; align-items:flex-start; gap:10px; margin-bottom:10px;
+}
+.task-checkbox {
+  width:18px; height:18px; border:1.5px solid var(--ink-faint);
+  border-radius:5px; flex-shrink:0; cursor:pointer; margin-top:2px;
+  transition:all var(--transition); position:relative;
+}
+.task-checkbox:hover { border-color:var(--bamboo); }
+.task-card.status-completed .task-checkbox {
+  background:var(--bamboo); border-color:var(--bamboo);
+}
+.task-card.status-completed .task-checkbox::after {
+  content:''; position:absolute; left:5px; top:2px;
+  width:4px; height:8px; border:solid white; border-width:0 2px 2px 0;
+  transform:rotate(45deg);
+}
+.task-info { flex:1; min-width:0; }
+.task-name {
+  font-size:14px; font-weight:500; color:var(--ink); margin-bottom:4px;
+  word-break:break-word;
+}
+.task-card.status-completed .task-name {
+  text-decoration:line-through; color:var(--ink-tertiary);
+}
+.task-meta {
+  display:flex; align-items:center; flex-wrap:wrap; gap:6px 10px;
+  font-size:11px; color:var(--ink-tertiary);
+}
+.task-period-tag {
+  padding:1px 7px; border-radius:3px; font-size:10px; letter-spacing:0.5px;
+  font-weight:500;
+}
+.period-daily { background:var(--bamboo-soft); color:var(--bamboo); }
+.period-weekly { background:var(--indigo-soft); color:var(--indigo); }
+.period-monthly { background:var(--gold-soft); color:var(--gold); }
+.period-yearly { background:var(--amethyst-soft); color:var(--amethyst); }
+.period-temp { background:var(--border-light); color:var(--ink-tertiary); }
+
+.task-status-tag {
+  padding:1px 7px; border-radius:3px; font-size:10px; letter-spacing:0.5px;
+  font-weight:500;
+}
+.status-tag-pending { background:var(--border-light); color:var(--ink-tertiary); }
+.status-tag-active { background:var(--bamboo-soft); color:var(--bamboo); }
+.status-tag-completed { background:var(--bamboo-soft); color:var(--bamboo); }
+.status-tag-overdue { background:var(--cinnabar-soft); color:var(--cinnabar); }
+
+.task-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:8px; padding-top:8px; border-top:1px solid var(--border-light);
+}
+.task-deadline {
+  font-size:11px; color:var(--ink-tertiary);
+  display:flex; align-items:center; gap:6px;
+}
+.task-deadline .label { color:var(--ink-faint); }
+.task-remaining {
+  font-size:11px; font-weight:500;
+  font-variant-numeric:tabular-nums;
+}
+.remaining-ok { color:var(--bamboo); }
+.remaining-warn { color:var(--gold); }
+.remaining-urgent { color:var(--cinnabar); }
+.task-actions {
+  display:flex; gap:4px; opacity:0; transition:opacity var(--transition);
+}
+.task-card:hover .task-actions { opacity:1; }
+.task-action-btn {
+  padding:3px 8px; border:1px solid var(--border); border-radius:var(--radius-sm);
+  background:transparent; color:var(--ink-tertiary); font-size:11px;
+  transition:all var(--transition);
+}
+.task-action-btn:hover { border-color:var(--ink-tertiary); color:var(--ink); background:var(--surface-hover); }
+.task-action-btn.delete:hover { border-color:var(--cinnabar); color:var(--cinnabar); background:var(--cinnabar-soft); }
+
+/* ==================== EMPTY STATE ==================== */
+.empty-state {
+  text-align:center; padding:48px 20px; color:var(--ink-faint);
+}
+.empty-state .icon { font-size:36px; margin-bottom:12px; opacity:0.4; }
+.empty-state .text { font-size:14px; color:var(--ink-tertiary); margin-bottom:4px; }
+.empty-state .hint { font-size:12px; color:var(--ink-faint); }
+
+/* ==================== ADD BUTTON ==================== */
+#add-btn {
+  position:fixed; bottom:28px; right:28px; width:48px; height:48px;
+  background:var(--bamboo); border:none; border-radius:50%;
+  color:white; font-size:24px; font-weight:300;
+  box-shadow:var(--shadow-md); cursor:pointer; z-index:90;
+  display:flex; align-items:center; justify-content:center;
+  transition:all var(--transition); line-height:1;
+}
+#add-btn:hover { background:#335c42; box-shadow:var(--shadow-lg); transform:scale(1.05); }
+#add-btn:active { transform:scale(0.95); }
+
+/* ==================== MODAL OVERLAY ==================== */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.35);
+  z-index:200; display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity var(--transition);
+}
+.modal-overlay.show { opacity:1; pointer-events:auto; }
+.modal-box {
+  background:var(--surface); border-radius:12px; box-shadow:var(--shadow-lg);
+  width:100%; max-width:460px; margin:20px;
+  transform:scale(0.96); transition:transform var(--transition);
+}
+.modal-overlay.show .modal-box { transform:scale(1); }
+.modal-header {
+  padding:20px 24px 0; display:flex; align-items:center; justify-content:space-between;
+}
+.modal-title {
+  font-family:var(--font-serif); font-size:16px; font-weight:600; color:var(--ink);
+}
+.modal-close {
+  width:28px; height:28px; border-radius:50%; border:none; background:transparent;
+  color:var(--ink-tertiary); font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all var(--transition);
+}
+.modal-close:hover { background:var(--bg-warm); color:var(--ink); }
+.modal-body { padding:16px 24px 20px; }
+.form-group { margin-bottom:14px; }
+.form-label {
+  display:block; font-size:11px; color:var(--ink-secondary); margin-bottom:5px;
+  letter-spacing:0.5px;
+}
+.form-input, .form-select {
+  width:100%; padding:9px 12px; border:1px solid var(--border);
+  border-radius:var(--radius-sm); background:var(--bg);
+  font-size:13px; color:var(--ink); transition:all var(--transition);
+}
+.form-input:focus, .form-select:focus { border-color:var(--bamboo); background:var(--surface); }
+.form-input::placeholder { color:var(--ink-faint); }
+.form-row { display:flex; gap:10px; }
+.form-row .form-group { flex:1; margin-bottom:0; }
+.form-row .form-group:first-child { flex:1.4; }
+
+.reminder-options {
+  display:flex; flex-wrap:wrap; gap:6px;
+}
+.reminder-chip {
+  padding:5px 12px; border:1px solid var(--border); border-radius:var(--radius-sm);
+  background:transparent; color:var(--ink-secondary); font-size:12px; cursor:pointer;
+  transition:all var(--transition);
+}
+.reminder-chip:hover { border-color:var(--ink-tertiary); }
+.reminder-chip.selected { background:var(--bamboo-soft); border-color:var(--bamboo); color:var(--bamboo); }
+
+.modal-footer {
+  padding:0 24px 20px; display:flex; justify-content:flex-end; gap:8px;
+}
+.btn {
+  padding:9px 20px; border-radius:var(--radius-sm); font-size:13px; cursor:pointer;
+  transition:all var(--transition);
+}
+.btn-primary {
+  background:var(--bamboo); color:white; border:none;
+}
+.btn-primary:hover { background:#335c42; }
+.btn-secondary {
+  background:transparent; color:var(--ink-secondary); border:1px solid var(--border);
+}
+.btn-secondary:hover { border-color:var(--ink-tertiary); color:var(--ink); background:var(--surface-hover); }
+
+/* ==================== REMINDER POPUP ==================== */
+#reminder-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.25);
+  z-index:300; display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity var(--transition);
+}
+#reminder-overlay.show { opacity:1; pointer-events:auto; }
+.reminder-box {
+  background:var(--surface); border-radius:12px; box-shadow:var(--shadow-lg);
+  width:100%; max-width:360px; margin:20px; padding:28px;
+  text-align:center; transform:scale(0.95); transition:transform var(--transition);
+}
+#reminder-overlay.show .reminder-box { transform:scale(1); }
+.reminder-icon { font-size:36px; margin-bottom:12px; }
+.reminder-title { font-family:var(--font-serif); font-size:16px; font-weight:600; color:var(--ink); margin-bottom:8px; }
+.reminder-body { font-size:13px; color:var(--ink-secondary); line-height:1.7; margin-bottom:20px; }
+.reminder-time { color:var(--cinnabar); font-weight:500; }
+
+/* ==================== SETTINGS PANEL ==================== */
+#settings-panel {
+  position:fixed; top:60px; right:0; width:260px;
+  background:var(--surface); border-left:1px solid var(--border);
+  border-bottom:1px solid var(--border); border-radius:0 0 0 var(--radius);
+  z-index:150; transform:translateX(100%);
+  transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  padding:20px; box-shadow:var(--shadow);
+}
+#settings-panel.open { transform:translateX(0); }
+.settings-title {
+  font-family:var(--font-serif); font-size:13px; font-weight:600;
+  color:var(--ink); margin-bottom:16px; padding-bottom:8px;
+  border-bottom:1px solid var(--border-light);
+}
+.s-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border-light); }
+.s-row:last-child { border-bottom:none; }
+.s-label { font-size:12px; color:var(--ink-secondary); }
+.toggle { width:34px; height:20px; background:var(--border); border-radius:10px; cursor:pointer; position:relative; transition:background var(--transition); }
+.toggle::after { content:''; position:absolute; top:2px; left:2px; width:16px; height:16px; background:white; border-radius:50%; transition:all var(--transition); box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+.toggle.on { background:var(--bamboo); }
+.toggle.on::after { left:16px; }
+.s-select { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--ink); font-size:11px; padding:4px 8px; cursor:pointer; appearance:none; -webkit-appearance:none; padding-right:22px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%239a9a95'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 6px center; }
+.s-select:hover { border-color:var(--ink-tertiary); }
+
+/* ==================== TOAST ==================== */
+#toast-container { position:fixed; bottom:20px; left:20px; z-index:400; display:flex; flex-direction:column; gap:8px; }
+.toast { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 16px; font-size:12px; color:var(--ink-secondary); box-shadow:var(--shadow); animation:toastIn 0.3s ease; border-left:3px solid var(--bamboo); }
+.toast.removing { animation:toastOut 0.3s ease forwards; }
+@keyframes toastIn { from{opacity:0;transform:translateX(-12px);} to{opacity:1;transform:translateX(0);} }
+@keyframes toastOut { to{opacity:0;transform:translateX(-12px);} }
+
+/* ==================== BOTTOM NAV ==================== */
+#bottom-nav {
+  display:none; position:fixed; bottom:0; left:0; right:0;
+  height:56px; background:var(--surface); border-top:1px solid var(--border-light);
+  z-index:95; justify-content:space-around; align-items:center;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.nav-item {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2px; flex:1; height:100%; background:transparent; border:none;
+  color:var(--ink-tertiary); font-size:10px; cursor:pointer; transition:color var(--transition);
+}
+.nav-item.active { color:var(--bamboo); }
+.nav-item .nav-icon { font-size:18px; line-height:1; }
+
+/* ==================== SHARE PANEL ==================== */
+#share-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.35);
+  z-index:250; display:flex; align-items:flex-end; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity var(--transition);
+}
+#share-overlay.show { opacity:1; pointer-events:auto; }
+.share-sheet {
+  background:var(--surface); border-radius:16px 16px 0 0;
+  width:100%; max-width:480px; padding:20px 24px 28px;
+  transform:translateY(100%); transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+#share-overlay.show .share-sheet { transform:translateY(0); }
+.share-title { font-family:var(--font-serif); font-size:15px; font-weight:600; text-align:center; margin-bottom:16px; }
+.share-qr { width:180px; height:180px; margin:0 auto 16px; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+.share-qr img { width:100%; height:100%; object-fit:contain; }
+.share-hint { text-align:center; font-size:12px; color:var(--ink-tertiary); margin-bottom:16px; }
+.share-actions { display:flex; gap:8px; }
+.share-actions .btn { flex:1; }
+
+/* ==================== RESPONSIVE ==================== */
+@media(max-width:640px){
+  #header { padding:0 16px; height:auto; flex-wrap:wrap; padding-top:10px; padding-bottom:10px; gap:8px; }
+  .clock-block { order:-1; width:100%; justify-content:center; }
+  #main { padding:100px 16px 80px; }
+  #daily-quote { padding:24px 12px 20px; }
+  .quote-text { font-size:22px; }
+  .quote-seal { display:none; }
+  .task-actions { opacity:1; }
+  #add-btn { bottom:70px; right:16px; width:44px; height:44px; }
+  #bottom-nav { display:flex; }
+  .header-controls { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div class="brand">
+    <div class="brand-icon">毕</div>
+    <div class="brand-text">今日事今日毕</div>
+  </div>
+  <div class="clock-block">
+    <div class="clock-time"><span id="clock-hm">00:00</span><span class="sec" id="clock-s">:00</span></div>
+    <div class="clock-date">
+      <div class="weekday">周-</div>
+      <div>----/--/--</div>
+    </div>
+  </div>
+  <div class="header-controls">
+    <button class="h-btn active" id="btn-chime"><span class="dot"></span>报时</button>
+    <button class="h-btn" id="btn-silent"><span class="dot"></span>静音</button>
+    <button class="h-btn" id="btn-settings">设置</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <!-- DAILY QUOTE -->
+  <section id="daily-quote">
+    <div class="quote-seal"><span>日课</span></div>
+    <div class="quote-deco"></div>
+    <div class="quote-text" id="quote-text"> loading... </div>
+    <div class="quote-source" id="quote-source"></div>
+    <div class="quote-deco" style="margin-top:24px; margin-bottom:0;"></div>
+  </section>
+
+  <!-- TASK SECTIONS -->
+  <div id="task-container"></div>
+</div>
+
+<!-- ADD BUTTON -->
+<button id="add-btn" title="新建任务">+</button>
+
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="task-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">新建任务</div>
+      <button class="modal-close" id="modal-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">任务名称</label>
+        <input type="text" class="form-input" id="f-name" placeholder="例如：完成季度报告">
+      </div>
+      <div class="form-group">
+        <label class="form-label">任务周期</label>
+        <select class="form-select" id="f-period">
+          <option value="daily">每日任务</option>
+          <option value="weekly">每周任务</option>
+          <option value="monthly">每月任务</option>
+          <option value="yearly">每年任务</option>
+          <option value="temp" selected>项目任务</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">开始日期</label>
+          <input type="date" class="form-input" id="f-start-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">开始时间</label>
+          <input type="time" class="form-input" id="f-start-time" value="09:00">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">截止日期</label>
+          <input type="date" class="form-input" id="f-deadline-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">截止时间</label>
+          <input type="time" class="form-input" id="f-deadline-time" value="18:00">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">提前提醒</label>
+        <div class="reminder-options" id="reminder-options">
+          <button class="reminder-chip" data-val="5">提前5分钟</button>
+          <button class="reminder-chip" data-val="15">提前15分钟</button>
+          <button class="reminder-chip selected" data-val="30">提前30分钟</button>
+          <button class="reminder-chip" data-val="60">提前1小时</button>
+          <button class="reminder-chip" data-val="1440">提前1天</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="modal-cancel">取消</button>
+      <button class="btn btn-primary" id="modal-save">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- REMINDER POPUP -->
+<div id="reminder-overlay">
+  <div class="reminder-box">
+    <div class="reminder-icon">��</div>
+    <div class="reminder-title" id="reminder-title">任务提醒</div>
+    <div class="reminder-body" id="reminder-body"></div>
+    <button class="btn btn-primary" id="reminder-ok" style="width:100%;">我知道了</button>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div id="settings-panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border-light);">
+    <div class="settings-title" style="margin-bottom:0;padding-bottom:0;border:none;">设置</div>
+    <button id="settings-close" style="background:transparent;border:none;color:var(--ink-tertiary);font-size:18px;cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all 0.2s;" onmouseover="this.style.background='var(--bg-warm)';this.style.color='var(--ink)'" onmouseout="this.style.background='transparent';this.style.color='var(--ink-tertiary)'">&times;</button>
+  </div>
+  <div class="s-row">
+    <span class="s-label">整点报时</span>
+    <div class="toggle on" id="toggle-chime"></div>
+  </div>
+  <div class="s-row">
+    <span class="s-label">静音模式</span>
+    <div class="toggle" id="toggle-silent"></div>
+  </div>
+  <div class="s-row">
+    <span class="s-label">语音播报</span>
+    <div class="toggle" id="toggle-voice"></div>
+  </div>
+  <div class="s-row">
+    <span class="s-label">报时音量</span>
+    <input type="range" style="width:80px;accent-color:var(--bamboo);" id="s-volume" min="0" max="100" value="40">
+  </div>
+  <div class="s-row">
+    <span class="s-label">语音语速</span>
+    <input type="range" style="width:80px;accent-color:var(--bamboo);" id="s-rate" min="60" max="160" value="100">
+  </div>
+  <div class="s-row">
+    <span class="s-label">语音风格</span>
+    <select class="s-select" id="s-voice-style">
+      <option value="gentle">温和</option>
+      <option value="standard">标准</option>
+      <option value="brief">简洁</option>
+    </select>
+  </div>
+  <div class="s-row">
+    <span class="s-label">测试报时</span>
+    <button class="btn btn-secondary" id="btn-test" style="font-size:11px;padding:4px 10px;">测试</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav id="bottom-nav">
+  <button class="nav-item active" data-nav="tasks">
+    <span class="nav-icon">☰</span>
+    <span>任务</span>
+  </button>
+  <button class="nav-item" data-nav="add">
+    <span class="nav-icon">+</span>
+    <span>新建</span>
+  </button>
+  <button class="nav-item" data-nav="share">
+    <span class="nav-icon">⇲</span>
+    <span>分享</span>
+  </button>
+</nav>
+
+<!-- SHARE SHEET -->
+<div id="share-overlay">
+  <div class="share-sheet">
+    <div class="share-title">分享给朋友</div>
+    <div class="share-qr">
+      <img src="./qrcode.png" alt="QR Code" id="share-qr-img">
+    </div>
+    <div class="share-hint">扫描二维码，在手机上打开使用<br>或点击右下角添加到主屏幕</div>
+    <div class="share-actions">
+      <button class="btn btn-secondary" id="share-copy">复制链接</button>
+      <button class="btn btn-primary" id="share-close">我知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast-container"></div>
+
+<script>
+// ==================== QUOTES ====================
+const QUOTES = [
+  { text: "星星之火，可以燎原。", source: "《毛泽东选集》第一卷" },
+  { text: "没有调查，就没有发言权。", source: "《反对本本主义》" },
+  { text: "一切反动派都是纸老虎。", source: "《和美国记者安娜·路易斯·斯特朗的谈话》" },
+  { text: "战略上要藐视敌人，战术上要重视敌人。", source: "《关于目前党的政策中的几个重要问题》" },
+  { text: "实事求是。", source: "《改造我们的学习》" },
+  { text: "自己动手，丰衣足食。", source: "《必须学会做经济工作》" },
+  { text: "前途是光明的，道路是曲折的。", source: "《关于重庆谈判》" },
+  { text: "不到长城非好汉。", source: "《清平乐·六盘山》" },
+  { text: "一万年太久，只争朝夕。", source: "《满江红·和郭沫若同志》" },
+  { text: "虚心使人进步，骄傲使人落后。", source: "《中国共产党第八次全国代表大会开幕词》" },
+  { text: "兵民是胜利之本。", source: "《论持久战》" },
+  { text: "下定决心，不怕牺牲，排除万难，去争取胜利。", source: "《愚公移山》" },
+  { text: "学习的敌人是自己的满足。", source: "《中国共产党全国宣传工作会议上的讲话》" },
+  { text: "我们不但善于破坏一个旧世界，我们还将善于建设一个新世界。", source: "《在中国共产党第七届中央委员会第二次全体会议上的报告》" },
+  { text: "枪杆子里面出政权。", source: "《在中央紧急会议上的发言》" },
+  { text: "从群众中来，到群众中去。", source: "《关于领导方法的若干问题》" },
+  { text: "群众是真正的英雄。", source: "《〈农村调查〉的序言和跋》" },
+  { text: "政治路线确定之后，干部就是决定的因素。", source: "《中国共产党在民族战争中的地位》" },
+  { text: "任何新生事物的成长都是要经过艰难曲折的。", source: "《关于正确处理人民内部矛盾的问题》" },
+  { text: "情况是在不断的变化，要使自己的思想适应新的情况，就得学习。", source: "《在中国共产党全国宣传工作会议上的讲话》" },
+  { text: "世界是你们的，也是我们的，但是归根结底是你们的。", source: "《在莫斯科大学接见中国留学生时的讲话》" },
+  { text: "哪里有压迫，哪里就有反抗。", source: "《毛泽东选集》第四卷" },
+  { text: "不论做什么事，不懂得那件事的情形，它的性质，它和它以外的事情的关联，就不知道那件事的规律，就不知道如何去做，就不能做好那件事。", source: "《中国革命战争的战略问题》" },
+  { text: "读书是学习，使用也是学习，而且是更重要的学习。", source: "《中国革命战争的战略问题》" },
+  { text: "人是要有一点精神的。", source: "《毛泽东选集》第四卷" },
+  { text: "事物总是发展的，旧的解决了，新的又会产生。", source: "《关于正确处理人民内部矛盾的问题》" },
+  { text: "思想上政治上的路线正确与否是决定一切的。", source: "《毛泽东选集》第五卷" },
+  { text: "务须使同志们继续地保持谦虚、谨慎、不骄、不躁的作风。", source: "《在中国共产党第七届中央委员会第二次全体会议上的报告》" },
+  { text: "夺取全国胜利，这只是万里长征走完了第一步。", source: "《在中国共产党第七届中央委员会第二次全体会议上的报告》" },
+  { text: "在战略上藐视敌人，在战术上重视敌人。", source: "《关于目前党的政策中的几个重要问题》" }
+];
+
+// ==================== STATE ====================
+const TASKS_KEY = 'jinri_tasks_v2';
+const SETTINGS_KEY = 'jinri_settings_v2';
+
+let tasks = [];
+let nextId = 1;
+let settings = {
+  chimeEnabled: true,
+  silentMode: false,
+  voiceEnabled: false,
+  volume: 40,
+  rate: 100,
+  voiceStyle: 'gentle'
+};
+let editingTaskId = null;
+let selectedReminder = 30;
+let lastChimeHour = -1;
+let audioCtx = null;
+let remindedTaskIds = new Set(); // tasks already reminded this cycle
+
+// ==================== TIME UTILS ====================
+function toDate(dateStr, timeStr) {
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const [h,min] = timeStr.split(':').map(Number);
+  return new Date(y,m-1,d,h,min);
+}
+
+function now() { return new Date(); }
+
+function pad2(n) { return String(n).padStart(2,'0'); }
+
+function fmtDateTime(dateStr, timeStr) {
+  const d = toDate(dateStr, timeStr);
+  const t = now();
+  const today = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+  const target = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const diff = Math.round((target - today) / 86400000);
+  let label;
+  if (diff === 0) label = '今天';
+  else if (diff === 1) label = '明天';
+  else if (diff === -1) label = '昨天';
+  else label = `${d.getMonth()+1}月${d.getDate()}日`;
+  return `${label} ${timeStr}`;
+}
+
+function fmtRemaining(ms) {
+  if (ms <= 0) return '已截止';
+  const d = Math.floor(ms / 86400000);
+  const h = Math.floor((ms % 86400000) / 3600000);
+  const m = Math.floor((ms % 3600000) / 60000);
+  if (d > 0) return `剩余 ${d}天${h}小时`;
+  if (h > 0) return `剩余 ${h}小时${m}分钟`;
+  return `剩余 ${m}分钟`;
+}
+
+function getDeadlineMs(task) {
+  return toDate(task.deadlineDate, task.deadlineTime).getTime();
+}
+
+function getStartMs(task) {
+  return toDate(task.startDate, task.startTime).getTime();
+}
+
+function getReminderMs(task) {
+  return getDeadlineMs(task) - task.reminderOffset * 60000;
+}
+
+function computeStatus(task) {
+  if (task.status === 'completed') return 'completed';
+  const t = now().getTime();
+  if (t > getDeadlineMs(task)) return 'overdue';
+  if (t >= getStartMs(task)) return 'active';
+  return 'pending';
+}
+
+// ==================== STORAGE ====================
+function loadData() {
+  try {
+    const raw = localStorage.getItem(TASKS_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      tasks = data.tasks || [];
+      nextId = data.nextId || 1;
+    } else {
+      seedDemoTasks();
+    }
+  } catch(e) { console.warn(e); }
+  try {
+    const s = localStorage.getItem(SETTINGS_KEY);
+    if (s) Object.assign(settings, JSON.parse(s));
+  } catch(e) { console.warn(e); }
+}
+
+function saveData() {
+  try {
+    localStorage.setItem(TASKS_KEY, JSON.stringify({ tasks, nextId }));
+  } catch(e) {}
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  } catch(e) {}
+}
+
+function seedDemoTasks() {
+  const t = now();
+  const today = `${t.getFullYear()}-${pad2(t.getMonth()+1)}-${pad2(t.getDate())}`;
+  tasks = [
+    {
+      id: nextId++, name: '完成季度报告', period: 'temp',
+      startDate: today, startTime: '09:00',
+      deadlineDate: today, deadlineTime: '17:00',
+      reminderOffset: 60, status: 'active', completedAt: null,
+      reminded: false, createdAt: t.toISOString()
+    },
+    {
+      id: nextId++, name: '阅读专业书籍', period: 'daily',
+      startDate: today, startTime: '20:00',
+      deadlineDate: today, deadlineTime: '21:30',
+      reminderOffset: 15, status: 'pending', completedAt: null,
+      reminded: false, createdAt: t.toISOString()
+    },
+    {
+      id: nextId++, name: '回复客户邮件', period: 'temp',
+      startDate: today, startTime: '14:00',
+      deadlineDate: today, deadlineTime: '15:00',
+      reminderOffset: 15, status: 'active', completedAt: null,
+      reminded: false, createdAt: t.toISOString()
+    }
+  ];
+  saveData();
+}
+
+// ==================== RENDER ====================
+function renderQuote() {
+  const d = now().getDate();
+  const idx = (d - 1) % QUOTES.length;
+  const q = QUOTES[idx];
+  document.getElementById('quote-text').textContent = q.text;
+}
+
+function renderTasks() {
+  const container = document.getElementById('task-container');
+  container.innerHTML = '';
+
+  // Update all statuses
+  tasks.forEach(t => {
+    if (t.status !== 'completed') {
+      t.status = computeStatus(t);
+    }
+  });
+
+  const groups = {
+    active: tasks.filter(t => t.status === 'active'),
+    pending: tasks.filter(t => t.status === 'pending'),
+    overdue: tasks.filter(t => t.status === 'overdue'),
+    completed: tasks.filter(t => t.status === 'completed')
+  };
+
+  const labels = {
+    active: { title: '进行中', empty: '暂无进行中的任务' },
+    pending: { title: '未开始', empty: '暂无未开始的任务' },
+    overdue: { title: '已逾期', empty: '暂无逾期任务' },
+    completed: { title: '已完成', empty: '暂无已完成任务' }
+  };
+
+  let hasAny = false;
+  ['active','pending','overdue','completed'].forEach(key => {
+    const list = groups[key];
+    if (list.length === 0) return;
+    hasAny = true;
+    const section = document.createElement('div');
+
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.textContent = `${labels[key].title} · ${list.length}`;
+    section.appendChild(title);
+
+    // Sort: active/pending/overdue by deadline ascending; completed by completedAt descending
+    if (key === 'completed') {
+      list.sort((a,b) => new Date(b.completedAt) - new Date(a.completedAt));
+    } else {
+      list.sort((a,b) => getDeadlineMs(a) - getDeadlineMs(b));
+    }
+
+    list.forEach(task => section.appendChild(createTaskCard(task)));
+    container.appendChild(section);
+  });
+
+  if (!hasAny) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">升</div>
+        <div class="text">今日尚无任务</div>
+        <div class="hint">点击右下角按钮，规划今日之事</div>
+      </div>`;
+  }
+
+  saveData();
+}
+
+const PERIOD_LABELS = { daily:'每日', weekly:'每周', monthly:'每月', yearly:'每年', temp:'项目' };
+const STATUS_LABELS = { pending:'未开始', active:'进行中', completed:'已完成', overdue:'已逾期' };
+
+function createTaskCard(task) {
+  const card = document.createElement('div');
+  card.className = `task-card status-${task.status}`;
+
+  const t = now().getTime();
+  const deadlineMs = getDeadlineMs(task);
+  const remainingMs = deadlineMs - t;
+
+  let remainingClass = 'remaining-ok';
+  if (task.status === 'overdue') remainingClass = 'remaining-urgent';
+  else if (remainingMs < 3600000) remainingClass = 'remaining-urgent';
+  else if (remainingMs < 86400000) remainingClass = 'remaining-warn';
+
+  const remainingText = task.status === 'completed' ? '已完成' :
+    task.status === 'overdue' ? `已逾期 ${fmtRemaining(-remainingMs).replace('剩余 ','')}` :
+    fmtRemaining(remainingMs);
+
+  card.innerHTML = `
+    <div class="task-card-inner">
+      <div class="task-header">
+        <div class="task-checkbox" data-id="${task.id}"></div>
+        <div class="task-info">
+          <div class="task-name">${escapeHtml(task.name)}</div>
+          <div class="task-meta">
+            <span class="task-period-tag period-${task.period}">${PERIOD_LABELS[task.period]}</span>
+            <span class="task-status-tag status-tag-${task.status}">${STATUS_LABELS[task.status]}</span>
+          </div>
+        </div>
+      </div>
+      <div class="task-footer">
+        <div class="task-deadline">
+          <span class="label">截止</span>
+          <span>${fmtDateTime(task.deadlineDate, task.deadlineTime)}</span>
+        </div>
+        <div class="task-remaining ${remainingClass}">${remainingText}</div>
+        <div class="task-actions">
+          <button class="task-action-btn" data-edit="${task.id}">编辑</button>
+          <button class="task-action-btn delete" data-del="${task.id}">删除</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  card.querySelector('.task-checkbox').addEventListener('click', () => toggleComplete(task.id));
+  card.querySelector('[data-edit]').addEventListener('click', () => openModal(task.id));
+  card.querySelector('[data-del]').addEventListener('click', () => deleteTask(task.id));
+
+  return card;
+}
+
+function escapeHtml(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ==================== TASK ACTIONS ====================
+function toggleComplete(id) {
+  const task = tasks.find(t => t.id === id);
+  if (!task) return;
+  if (task.status === 'completed') {
+    task.status = computeStatus(task);
+    task.completedAt = null;
+  } else {
+    task.status = 'completed';
+    task.completedAt = now().toISOString();
+  }
+  saveData();
+  renderTasks();
+  if (task.status === 'completed') showToast('任务完成 ✓');
+}
+
+function deleteTask(id) {
+  tasks = tasks.filter(t => t.id !== id);
+  saveData();
+  renderTasks();
+  showToast('任务已删除');
+}
+
+// ==================== MODAL ====================
+function openModal(taskId) {
+  editingTaskId = taskId || null;
+  const modal = document.getElementById('task-modal');
+  const title = document.getElementById('modal-title');
+  const name = document.getElementById('f-name');
+  const period = document.getElementById('f-period');
+  const sDate = document.getElementById('f-start-date');
+  const sTime = document.getElementById('f-start-time');
+  const dDate = document.getElementById('f-deadline-date');
+  const dTime = document.getElementById('f-deadline-time');
+
+  if (taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+    title.textContent = '编辑任务';
+    name.value = task.name;
+    period.value = task.period;
+    sDate.value = task.startDate;
+    sTime.value = task.startTime;
+    dDate.value = task.deadlineDate;
+    dTime.value = task.deadlineTime;
+    selectedReminder = task.reminderOffset;
+  } else {
+    title.textContent = '新建任务';
+    name.value = '';
+    period.value = 'temp';
+    const t = now();
+    const today = `${t.getFullYear()}-${pad2(t.getMonth()+1)}-${pad2(t.getDate())}`;
+    sDate.value = today;
+    sTime.value = '09:00';
+    dDate.value = today;
+    dTime.value = '18:00';
+    selectedReminder = 30;
+  }
+
+  // Update reminder chips
+  document.querySelectorAll('.reminder-chip').forEach(chip => {
+    chip.classList.toggle('selected', parseInt(chip.dataset.val) === selectedReminder);
+  });
+
+  modal.classList.add('show');
+  setTimeout(() => name.focus(), 50);
+}
+
+function closeModal() {
+  document.getElementById('task-modal').classList.remove('show');
+  editingTaskId = null;
+}
+
+function saveTask() {
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { showToast('请输入任务名称'); return; }
+
+  const period = document.getElementById('f-period').value;
+  const startDate = document.getElementById('f-start-date').value;
+  const startTime = document.getElementById('f-start-time').value;
+  const deadlineDate = document.getElementById('f-deadline-date').value;
+  const deadlineTime = document.getElementById('f-deadline-time').value;
+
+  if (!deadlineDate || !deadlineTime) { showToast('请设置截止时间'); return; }
+
+  // Validate: deadline >= start
+  if (toDate(deadlineDate, deadlineTime) < toDate(startDate || deadlineDate, startTime || '00:00')) {
+    showToast('截止时间不能早于开始时间'); return;
+  }
+
+  if (editingTaskId) {
+    const task = tasks.find(t => t.id === editingTaskId);
+    if (task) {
+      task.name = name;
+      task.period = period;
+      task.startDate = startDate || deadlineDate;
+      task.startTime = startTime || '00:00';
+      task.deadlineDate = deadlineDate;
+      task.deadlineTime = deadlineTime;
+      task.reminderOffset = selectedReminder;
+      task.status = computeStatus(task);
+      task.reminded = false;
+    }
+  } else {
+    tasks.push({
+      id: nextId++, name, period,
+      startDate: startDate || deadlineDate,
+      startTime: startTime || '00:00',
+      deadlineDate, deadlineTime,
+      reminderOffset: selectedReminder,
+      status: 'pending', completedAt: null,
+      reminded: false, createdAt: now().toISOString()
+    });
+  }
+
+  saveData();
+  renderTasks();
+  closeModal();
+  showToast(editingTaskId ? '任务已更新' : '任务已创建');
+}
+
+// ==================== CLOCK & CHIME ====================
+function updateClock() {
+  const t = now();
+  document.getElementById('clock-hm').textContent = `${pad2(t.getHours())}:${pad2(t.getMinutes())}`;
+  document.getElementById('clock-s').textContent = `:${pad2(t.getSeconds())}`;
+
+  const days = ['周日','周一','周二','周三','周四','周五','周六'];
+  const el = document.querySelector('.clock-date');
+  el.innerHTML = `<div class="weekday">${days[t.getDay()]}</div><div>${t.getFullYear()}/${pad2(t.getMonth()+1)}/${pad2(t.getDate())}</div>`;
+}
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playChimeSound() {
+  if (settings.silentMode) return;
+  const ctx = getAudioCtx();
+  const vol = (settings.volume / 100) * 0.3;
+  const now = ctx.currentTime;
+
+  [523, 659, 784].forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, now + i * 0.15);
+    gain.gain.linearRampToValueAtTime(vol * (1 - i * 0.2), now + i * 0.15 + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 1.2);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now + i * 0.15);
+    osc.stop(now + i * 0.15 + 1.2);
+  });
+}
+
+function speakChime() {
+  if (!settings.voiceEnabled || settings.silentMode) return;
+  if (!('speechSynthesis' in window)) return;
+  const h = now().getHours();
+  let text = '';
+  switch(settings.voiceStyle) {
+    case 'gentle': text = `现在是 ${h} 点整，你的任务进行得如何？`; break;
+    case 'standard': text = `现在是 ${h} 点整`; break;
+    case 'brief': text = `${h}点整`; break;
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-CN';
+  u.rate = settings.rate / 100;
+  u.volume = settings.volume / 100;
+  const voices = speechSynthesis.getVoices();
+  const v = voices.find(x => x.lang.startsWith('zh'));
+  if (v) u.voice = v;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function triggerChime() {
+  playChimeSound();
+  speakChime();
+}
+
+function checkChime() {
+  const t = now();
+  if (t.getSeconds() === 0 && t.getMinutes() === 0 && t.getHours() !== lastChimeHour) {
+    if (settings.chimeEnabled) triggerChime();
+    lastChimeHour = t.getHours();
+  }
+  if (t.getMinutes() !== 0) lastChimeHour = -1;
+}
+
+// ==================== REMINDER SYSTEM ====================
+function checkReminders() {
+  const t = now().getTime();
+  tasks.forEach(task => {
+    if (task.status === 'completed') return;
+    const reminderMs = getReminderMs(task);
+    const deadlineMs = getDeadlineMs(task);
+
+    // Check reminder
+    if (!task.reminded && t >= reminderMs && t < deadlineMs) {
+      showReminder(task);
+      task.reminded = true;
+      saveData();
+    }
+
+    // Check overdue transition
+    if (task.status !== 'overdue' && t > deadlineMs) {
+      task.status = 'overdue';
+      saveData();
+      renderTasks();
+    }
+  });
+}
+
+function showReminder(task) {
+  const overlay = document.getElementById('reminder-overlay');
+  const body = document.getElementById('reminder-body');
+  const offset = task.reminderOffset;
+  let offsetText;
+  if (offset < 60) offsetText = `${offset}分钟`;
+  else if (offset < 1440) offsetText = `${Math.floor(offset/60)}小时`;
+  else offsetText = `${Math.floor(offset/1440)}天`;
+
+  body.innerHTML = `任务 <strong>${escapeHtml(task.name)}</strong> 将在 <span class="reminder-time">${offsetText}</span> 后截止<br>
+    截止时间：${fmtDateTime(task.deadlineDate, task.deadlineTime)}
+  `;
+  overlay.classList.add('show');
+}
+
+// ==================== SETTINGS ====================
+function applySettings() {
+  document.getElementById('btn-chime').classList.toggle('active', settings.chimeEnabled);
+  document.getElementById('toggle-chime').classList.toggle('on', settings.chimeEnabled);
+  document.getElementById('btn-silent').classList.toggle('active', settings.silentMode);
+  document.getElementById('toggle-silent').classList.toggle('on', settings.silentMode);
+  document.getElementById('toggle-voice').classList.toggle('on', settings.voiceEnabled);
+  document.getElementById('s-volume').value = settings.volume;
+  document.getElementById('s-rate').value = settings.rate;
+  document.getElementById('s-voice-style').value = settings.voiceStyle;
+}
+
+function initSettings() {
+  const toggle = (id, key, msgOn, msgOff) => {
+    const fn = () => {
+      settings[key] = !settings[key];
+      applySettings();
+      saveData();
+      showToast(settings[key] ? msgOn : msgOff);
+    };
+    document.getElementById(id).addEventListener('click', fn);
+    if (document.getElementById('toggle-' + key)) {
+      document.getElementById('toggle-' + key).addEventListener('click', fn);
+    }
+  };
+  toggle('btn-chime', 'chimeEnabled', '整点报时已开启', '整点报时已关闭');
+  toggle('btn-silent', 'silentMode', '静音模式已开启', '静音模式已关闭');
+
+  document.getElementById('toggle-voice').addEventListener('click', () => {
+    settings.voiceEnabled = !settings.voiceEnabled;
+    applySettings();
+    saveData();
+    showToast(settings.voiceEnabled ? '语音播报已开启' : '语音播报已关闭');
+  });
+
+  const settingsPanel = document.getElementById('settings-panel');
+
+  document.getElementById('btn-settings').addEventListener('click', (e) => {
+    e.stopPropagation();
+    settingsPanel.classList.toggle('open');
+  });
+
+  document.getElementById('settings-close').addEventListener('click', () => {
+    settingsPanel.classList.remove('open');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (settingsPanel.classList.contains('open') && !settingsPanel.contains(e.target)) {
+      settingsPanel.classList.remove('open');
+    }
+  });
+
+  document.getElementById('s-volume').addEventListener('input', e => { settings.volume = parseInt(e.target.value); saveData(); });
+  document.getElementById('s-rate').addEventListener('input', e => { settings.rate = parseInt(e.target.value); saveData(); });
+  document.getElementById('s-voice-style').addEventListener('change', e => { settings.voiceStyle = e.target.value; saveData(); });
+  document.getElementById('btn-test').addEventListener('click', () => triggerChime());
+}
+
+// ==================== TOAST ====================
+function showToast(msg) {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => { t.classList.add('removing'); setTimeout(() => t.remove(), 300); }, 2200);
+}
+
+// ==================== EVENTS ====================
+function initEvents() {
+  document.getElementById('add-btn').addEventListener('click', () => openModal());
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+  document.getElementById('modal-save').addEventListener('click', saveTask);
+  document.getElementById('reminder-ok').addEventListener('click', () => {
+    document.getElementById('reminder-overlay').classList.remove('show');
+  });
+
+  document.querySelectorAll('.reminder-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.reminder-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedReminder = parseInt(chip.dataset.val);
+    });
+  });
+
+  document.getElementById('task-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('task-modal')) closeModal();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeModal();
+      document.getElementById('reminder-overlay').classList.remove('show');
+      document.getElementById('settings-panel').classList.remove('open');
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'n' && !e.target.closest('.modal-box')) {
+      e.preventDefault();
+      openModal();
+    }
+  });
+
+  // Enable audio on first interaction
+  const enableAudio = () => {
+    getAudioCtx();
+    document.removeEventListener('click', enableAudio);
+  };
+  document.addEventListener('click', enableAudio);
+}
+
+// ==================== PWA ====================
+function initPWA() {
+  // Dynamic manifest
+  const manifest = {
+    name: '今日事今日毕',
+    short_name: '今日毕',
+    description: '融合东方美学的个人专注管理工具',
+    start_url: '.',
+    display: 'standalone',
+    background_color: '#f7f4ee',
+    theme_color: '#3d6b4d',
+    orientation: 'portrait',
+    icons: [
+      { src: './og-image.jpg', sizes: '192x192', type: 'image/jpeg' },
+      { src: './og-image.jpg', sizes: '512x512', type: 'image/jpeg' }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+  document.getElementById('manifest-link').href = URL.createObjectURL(blob);
+
+  // Service Worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW registration failed:', err));
+  }
+}
+
+// ==================== BOTTOM NAV ====================
+function initBottomNav() {
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const nav = item.dataset.nav;
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+
+      if (nav === 'tasks') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (nav === 'add') {
+        openModal();
+      } else if (nav === 'share') {
+        openShareSheet();
+      }
+    });
+  });
+}
+
+// ==================== SHARE ====================
+function openShareSheet() {
+  const overlay = document.getElementById('share-overlay');
+  overlay.classList.add('show');
+
+  // Update QR code src to current URL if available
+  const qrImg = document.getElementById('share-qr-img');
+  if (location.protocol !== 'file:') {
+    // Regenerate QR with current URL via QRServer API
+    qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=10&color=3d6b4d&bgcolor=f7f4ee&data=' + encodeURIComponent(location.href);
+  }
+}
+
+function closeShareSheet() {
+  document.getElementById('share-overlay').classList.remove('show');
+}
+
+function initShare() {
+  document.getElementById('share-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('share-overlay')) closeShareSheet();
+  });
+  document.getElementById('share-close').addEventListener('click', closeShareSheet);
+  document.getElementById('share-copy').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      showToast('链接已复制');
+    } catch {
+      showToast('复制失败，请手动复制');
+    }
+    closeShareSheet();
+  });
+
+  // Web Share API
+  if (navigator.share) {
+    document.getElementById('share-copy').textContent = '更多分享';
+    document.getElementById('share-copy').addEventListener('click', async () => {
+      try {
+        await navigator.share({
+          title: '今日事今日毕',
+          text: '融合东方美学的个人专注管理工具',
+          url: location.href
+        });
+      } catch {}
+      closeShareSheet();
+    });
+  }
+}
+
+// ==================== INIT ====================
+function init() {
+  loadData();
+  applySettings();
+  initSettings();
+  initEvents();
+  initPWA();
+  initBottomNav();
+  initShare();
+  renderQuote();
+  renderTasks();
+
+  updateClock();
+  setInterval(updateClock, 1000);
+  setInterval(checkChime, 500);
+  setInterval(checkReminders, 15000); // check every 15 seconds
+
+  if ('speechSynthesis' in window) {
+    speechSynthesis.getVoices();
+    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+  }
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
